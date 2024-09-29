@@ -16,29 +16,53 @@ int32_t main(){
             cin>>v[i];
         }
 
+        vector<int>presum(n);
+
+        presum[0] = v[0];
+
+        for(int i = 1 ; i < n ; i++){
+            presum[i] = presum[i - 1] + v[i];
+        }
+
         string s;
         cin>>s;
+   vector<pair<int,int>>vp;
+
+       int l = 0,r = n - 1;
+
+       while(l < r){
+
+       while( s[l] != 'L'  && l < n - 1)l++;
+
+       while(s[r] != 'R'  && r > 0)r--;
+
+       if(l < r){vp.push_back({l,r});}
+
+       l++;
+       r--;
+           
+
+       }
 
 
-        int l = 0,r = n - 1;
-        while(l <= r){
-            if(s[l] == 'R')l++;
-            if(s[r] == 'L')r--;
+   if(vp.size() == 0)cout<<0<<endl;
 
-            if(s[l] == 'L' && s[r] == 'R')break;
-        }
+   else{
+    int sum = 0;
+      for(auto &it :vp){
+  
+  if(it.first >= it.second)continue;
 
-cout<<l<<" "<<r<<endl;
-        if(l > r){
-            cout<<0<<endl;
-            continue;
-        }
+         if(it.first == 0){
+            sum += presum[it.second];
+         }
+         else{
+            int p = presum[it.second] - presum[it.first - 1];
+            sum += p;
+         }
+      }
 
-        int sum = 0;
-        for(int i = l ; i <= r ; i++){
-            sum += v[i];
-        }
-
-        cout<<sum<<endl;
+      cout<<sum<<endl;
+   }
     }
 }
